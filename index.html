@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RASH MONITOR</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+        }
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            background: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+        .data-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+        .data-item:hover {
+            background-color: #f8f9fa;
+        }
+        .data-icon {
+            font-size: 28px;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+        .data-value {
+            font-size: 24px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .data-unit {
+            font-size: 18px;
+            color: #6c757d;
+        }
+        .header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 30px;
+            border-radius: 20px 20px 0 0;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            font-size: 1.25rem;
+            margin-bottom: 0;
+        }
+        .footer {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .card-body {
+            padding: 30px;
+        }
+        .data-item:last-child {
+            border-bottom: none;
+        }
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .data-item div {
+            display: flex;
+            align-items: center;
+        }
+        .data-item span {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* ألوان مخصصة لكل معلمة */
+        #bodyTemp .data-icon,
+        #bodyTemp .data-value {
+            color: #FFA500; /* برتقالي */
+        }
+        #roomTemp .data-icon,
+        #roomTemp .data-value {
+            color: #00BFFF; /* أزرق فاتح */
+        }
+        #humidity .data-icon,
+        #humidity .data-value {
+            color: #32CD32; /* أخضر */
+        }
+        #heartRate .data-icon,
+        #heartRate .data-value {
+            color: #FF0000; /* أحمر */
+        }
+        #spo2 .data-icon,
+        #spo2 .data-value {
+            color: #8A2BE2; /* بنفسجي */
+        }
+
+        /* تأثيرات الحركة */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .data-item.updated {
+            animation: shake 0.5s ease, fadeIn 0.5s ease;
+        }
+        .data-icon.updated {
+            animation: pulse 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <div class="card">
+            <div class="header">
+                <h1><i class="fas fa-heartbeat"></i> RASH MONITOR</h1>
+                <p>Real-Time Health Monitoring System</p>
+            </div>
+            <div class="card-body">
+                <div class="data-item" id="bodyTemp">
+                    <div>
+                        <i class="fas fa-thermometer-half data-icon"></i>
+                        <span>Body Temperature:</span>
+                    </div>
+                    <div>
+                        <span class="data-value">--</span>
+                        <span class="data-unit">°C</span>
+                    </div>
+                </div>
+                <div class="data-item" id="roomTemp">
+                    <div>
+                        <i class="fas fa-temperature-low data-icon"></i>
+                        <span>Room Temperature:</span>
+                    </div>
+                    <div>
+                        <span class="data-value">--</span>
+                        <span class="data-unit">°C</span>
+                    </div>
+                </div>
+                <div class="data-item" id="humidity">
+                    <div>
+                        <i class="fas fa-tint data-icon"></i>
+                        <span>Humidity:</span>
+                    </div>
+                    <div>
+                        <span class="data-value">--</span>
+                        <span class="data-unit">%</span>
+                    </div>
+                </div>
+                <div class="data-item" id="heartRate">
+                    <div>
+                        <i class="fas fa-heart data-icon"></i>
+                        <span>Heart Rate:</span>
+                    </div>
+                    <div>
+                        <span class="data-value">--</span>
+                        <span class="data-unit">BPM</span>
+                    </div>
+                </div>
+                <div class="data-item" id="spo2">
+                    <div>
+                        <i class="fas fa-lungs data-icon"></i>
+                        <span>SpO2:</span>
+                    </div>
+                    <div>
+                        <span class="data-value">--</span>
+                        <span class="data-unit">%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <p class="mb-0">Developed with <i class="fas fa-heart text-danger"></i> by <a href="#" target="_blank">Husam Mohammed</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('connect', () => {
+            console.log("Connected to server");
+        });
+
+        socket.on('disconnect', () => {
+            console.log("Disconnected from server");
+        });
+
+        socket.on('data', (data) => {
+            console.log("Received data:", data);
+
+            // تحديث القيم مع إضافة تأثيرات الحركة
+            updateValue('bodyTemp', data.bodyTemp.toFixed(2));
+            updateValue('roomTemp', data.roomTemp.toFixed(2));
+            updateValue('humidity', data.humidity.toFixed(2));
+            updateValue('heartRate', data.heartRate);
+            updateValue('spo2', data.spo2);
+        });
+
+        function updateValue(elementId, value) {
+            const element = document.getElementById(elementId);
+            const valueElement = element.querySelector('.data-value');
+
+            if (valueElement.textContent !== value) {
+                // إضافة تأثيرات الحركة
+                element.classList.add('updated');
+                element.querySelector('.data-icon').classList.add('updated');
+
+                // تحديث القيمة
+                valueElement.textContent = value;
+
+                // إزالة تأثيرات الحركة بعد انتهاء التمرير
+                setTimeout(() => {
+                    element.classList.remove('updated');
+                    element.querySelector('.data-icon').classList.remove('updated');
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
